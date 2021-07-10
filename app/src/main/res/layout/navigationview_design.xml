@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@color/purple_200"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/profileImageIDIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/ic_launcher"
+        android:layout_gravity="center"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    <TextView
+        android:id="@+id/profile_name_IDTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sabiha Jannat Anni"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        />
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/profile_email_IDTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sabiha15-1376@diu.edu.bd"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        />
+
+</LinearLayout>
+</layout>

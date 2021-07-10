@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout
+
+    android:padding="10dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".activity.SignUpActivity">
+<TextView
+    android:layout_width="wrap_content"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:layout_height="wrap_content"
+    android:text="Registration"
+
+    />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="30dp"
+        android:hint="Enter your name"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userNameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="8dp"
+
+        android:layout_marginRight="30dp"
+        android:hint="Enter your email"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userEmailET"
+            android:inputType="textEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="30dp"
+        android:hint="Enter your phone number"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userPhoneET"
+            android:layout_width="match_parent"
+            android:inputType="number"
+            android:maxLength="11"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="30dp"
+        android:hint="Enter Password"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userPasswordET"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+   <!-- <EditText
+        android:id="@+id/userPasswordET"
+        android:padding="5dp"
+        android:hint="Enter Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+-->
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="8dp"
+        android:hint="Enter Confirm Password" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/userConfirmPasswordET"
+            android:layout_width="match_parent"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+   <!-- <EditText
+        android:id="@+id/userConfirmPasswordET"
+        android:padding="5dp"
+        android:hint="Enter Confirm Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Gender"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="start"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/maleRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Male" />
+
+        <RadioButton
+            android:id="@+id/femaleRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="female" />
+        <RadioButton
+            android:id="@+id/otherRB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Others" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:text="Category"
+        android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_gravity="start"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RadioButton
+            android:id="@+id/rb_category_patient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Patient" />
+
+        <RadioButton
+            android:id="@+id/rb_category_normal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Normal" />
+
+
+    </RadioGroup>
+
+    <CheckBox
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/userCondition"
+        android:layout_gravity="start"
+        android:text="Term and Condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></CheckBox>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textColor="#935493"
+        android:id="@+id/seeTerm"
+        android:text="Click to See Term and Condition Details "
+        android:layout_gravity="start"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:id="@+id/registerBTN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textAllCaps="false"
+        ></Button>
+
+</LinearLayout>
+
+</layout>

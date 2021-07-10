@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Covid Tracking</string>
+    <string name="all_phones">All phones</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close</string>
+    <string name="view_all">View All</string>
+
+    <string name="doctor_1">Keep Yourself isolated and take medicines according to the prescriptions.
+        	Stay hydrated and cat enough protein</string>
+
+    <string name="doctor_2"> Check SPO2 by pulse oximeter 3 times in a day or during the time when you are not feeling good.
+        > In case of bad feeling do nor feeling Panic and try pruning </string>
+
+    <string name="doctor_3"> If SPO2 Is less than 90 per minute seek Medical help and go to hospital.</string>
+
+    <string name="news_1">Nepal is facing the excessive covid 19 cases because of recent outbreak and people facing oxygen shortage.</string>
+    <string name="news_2">After India AND Nepal last day Bangladesh confirms their first patient with Indian variant. </string>
+    <string name="news_3">(Pfizer vaccinee picture)hoping that Pfizer vaccine would be the most effective vaccine. Bangladesh trying to approvesChinas’s Sinovac vaccine.</string>
+
+    <string name="general_1">Weak mask and sanitizer Social Distancing</string>
+    <string name="general_2">Get Vaccinated whenever you are eligible or Get the opportunity. Vaccination keeps the people closer.</string>
+
+    <string name="details">Latest and Breaking News on details. Explore details profile at Times of India for photos, videos and latest news of details. Also find news, photos ...</string>
+
+    <string name="question_1">1. Do you have fever?</string>
+    <string name="question_2">2. Do you have body pain?</string>
+    <string name="question_3">3. Do you have the feeling of smell and taste ?</string>
+    <string name="question_4">4. Are you having any sore throat ?</string>
+    <string name="question_5">5. Did you complete RT-PCR test?</string>
+
+</resources>

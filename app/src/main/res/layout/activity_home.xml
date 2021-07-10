@@ -1,0 +1,458 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawerId"
+    tools:openDrawer="start"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:context=".MainActivity">
+
+
+                <!--     <ViewFlipper
+                         android:id="@+id/view_flipper"
+                         android:layout_width="match_parent"
+                         android:layout_height="200dp"
+                         android:layout_marginTop="42dp"
+                         android:layout_centerHorizontal="true" />-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:layout_marginTop="38dp"
+                    android:text="Covid Map"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
+
+
+
+<!--    <fragment-->
+<!--        android:focusable="false"-->
+<!--        android:id="@+id/mapH"-->
+<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:clickable="false"-->
+<!--        android:layout_height="200dp"-->
+<!--        android:name="com.google.android.gms.maps.SupportMapFragment"-->
+<!--        >-->
+<!--    </fragment>-->
+             <LinearLayout
+                 android:id="@+id/mapH"
+                 android:layout_width="match_parent"
+                 android:layout_height="200dp">
+
+
+                 <ImageView
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:src="@drawable/map"
+                     />
+
+             </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="Corona Live"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_light"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="World Wide"
+                            android:textAlignment="center"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:padding="10dp"
+                            android:background="@drawable/shape"
+                            tools:ignore="RtlCompat" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/effected_ww_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:textColor="#FFEB3B"
+                                android:padding="5dp"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Corona Effected"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/deaths_ww_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:textColor="#E91E63"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Deaths"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/recovered_ww_home"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:textColor="#2196F3"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Recovered"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="20dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Bangladesh"
+                            android:textAlignment="center"
+                            android:background="@drawable/shape"
+                            android:textSize="20sp"
+                            android:textStyle="bold"
+                            android:padding="10dp"
+                            tools:ignore="RtlCompat" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/effected_bd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:textColor="#FFEB3B"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Corona Effected"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/deaths_bd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:textColor="#E91E63"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Deaths"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="5dp">
+
+                            <TextView
+                                android:id="@+id/recovered_bd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:textColor="#2196F3"
+                                android:text="Loading..."
+                                android:textAlignment="center" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_horizontal"
+                                android:padding="5dp"
+                                android:text="Recovered"
+                                android:textAlignment="center"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="Doctor Tips"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"></TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/doctor_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="News"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold">
+
+                </TextView>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/news_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    tools:listitem="@layout/model_layout">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="In General"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="20sp"
+                    android:textStyle="bold"></TextView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/general_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="35dp"
+                    android:orientation="horizontal"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/model_layout">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/purple_500"
+            android:padding="5dp"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/drawer_menu_id"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+
+            <ImageView
+                android:id="@+id/notificationId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_notifications"
+                android:textAllCaps="false"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/white"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/call_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_call"
+                android:layout_marginRight="7dp"
+                android:layout_toLeftOf="@id/notificationId"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                />
+<!--            <Button-->
+<!--                android:id="@+id/call_id_Home"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="36dp"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:background="@drawable/sos_bg"-->
+<!--                android:text="SOS -> 999"-->
+<!--                android:textColor="@color/white"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+        </RelativeLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="left"
+        android:visibility="gone"
+        app:headerLayout="@layout/nav_header"
+
+        >
+
+        <include layout="@layout/nav_header"
+
+            android:id="@+id/design_nav"/>
+
+
+
+
+    </com.google.android.material.navigation.NavigationView>
+
+
+</androidx.drawerlayout.widget.DrawerLayout>
+</layout>

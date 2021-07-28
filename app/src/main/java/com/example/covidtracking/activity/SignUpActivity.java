@@ -250,7 +250,7 @@ public class SignUpActivity extends AppCompatActivity {
             binding.userConfirmPasswordET.requestFocus();
             return false;
         }
-        else if(condition)
+        else if(!condition)
         {
             Toast.makeText(this, "Please Confirm Term Condition", Toast.LENGTH_SHORT).show();
             return false;

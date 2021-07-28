@@ -1,116 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout><LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/title_prescription"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/design_default_color_primary"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:text="Prescription"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/addPrescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:text="Add Prescription"
-        android:textAllCaps="false"></Button>
+        <TextView
+            android:id="@+id/title_prescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/design_default_color_primary"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="Prescription"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/showPrescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="5dp"
-        android:text="Show Prescription"
-        android:textAllCaps="false"></Button>
+        <Button
+            android:id="@+id/addPrescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:text="Add Prescription"
+            android:textAllCaps="false" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/showPrescriptionRV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="10dp"
-        android:visibility="gone"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_prescription"
-        tools:itemCount="5"
-        tools:listitem="@layout/model_prescription" />
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:visibility="gone"
-            android:id="@+id/addPrescriptionLL"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/showPrescription"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="20dp"
             android:layout_marginBottom="5dp"
-            android:orientation="vertical">
+            android:text="Show Prescription"
+            android:textAllCaps="false" />
 
-            <ImageView
-                android:id="@+id/addPrescriptionImage_id"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@drawable/prescription" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/showPrescriptionRV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="10dp"
+            android:visibility="visible"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_prescription"
+            tools:itemCount="5"
+            tools:listitem="@layout/model_prescription" />
 
-            <EditText
-                android:id="@+id/addPrescriptionDoctorName_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="Doctor Name"
-                android:textColorHint="@color/card1" />
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-
-            <EditText
-                android:id="@+id/addPrescriptionDate_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="Date"
-                android:textColorHint="@color/card1" />
-
-            <EditText
-                android:id="@+id/addPrescriptionDetails_id"
+            <LinearLayout
+                android:id="@+id/addPrescriptionLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
-                android:hint="Details"
-                android:textColorHint="@color/card1" />
-            <Button
-                android:id="@+id/savePrescription"
-                android:text="Save Prescription"
-                android:textAllCaps="false"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"></Button>
-        </LinearLayout>
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/addPrescriptionImage_id"
+                        android:layout_width="match_parent"
+                        android:scaleType="centerCrop"
+                        android:layout_height="300dp"
+                        android:src="@drawable/prescription" />
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/cameraButton"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="-27dp"
+                        android:src="@drawable/camera"
+                        android:layout_marginRight="5dp"
+                        app:civ_border_width="2dp"
+                        android:layout_gravity="right"
+                        app:civ_border_color="#FF000000"/>
+                </LinearLayout>
+
+
+                <EditText
+                    android:id="@+id/addPrescriptionDoctorName_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Doctor Name"
+                    android:textColorHint="@color/card1" />
+
+                <EditText
+                    android:id="@+id/addPrescriptionDate_id"
+                    android:inputType="datetime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Date"
+                    android:textColorHint="@color/card1" />
+
+                <EditText
+                    android:id="@+id/addPrescriptionDetails_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:hint="Details"
+                    android:textColorHint="@color/card1" />
+
+                <Button
+                    android:id="@+id/savePrescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Save Prescription"
+                    android:textAllCaps="false" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
 
 </layout>

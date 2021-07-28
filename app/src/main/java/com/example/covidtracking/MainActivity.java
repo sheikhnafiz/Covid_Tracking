@@ -2,14 +2,19 @@ package com.example.covidtracking;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,15 +30,21 @@ import com.example.covidtracking.activity.SignUpActivity;
 import com.example.covidtracking.adapter.BlogAdapter;
 import com.example.covidtracking.databinding.ActivityMainBinding;
 import com.example.covidtracking.model.Blog;
+import com.example.covidtracking.model.PatientHistory;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -50,44 +61,50 @@ import Login.Login;
 import static com.example.covidtracking.Config.database;
 import static com.example.covidtracking.Config.mAuth;
 import static com.example.covidtracking.Config.myRef;
+import static com.example.covidtracking.Config.patientHistories;
+
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback
-{
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback {
     ViewFlipper viewFlipper;
     ActivityMainBinding binding;
     BlogAdapter blogAdapter;
     BlogAdapter generalAdapter;
     BlogAdapter newsAdapter;
+    private ArrayList<LatLng> locationArrayList;
+    GoogleMap googleMap;
+
+    PatientHistory patientHistory;
+
+
     @Override
     protected void onStart() {
         super.onStart();
         requestPermission();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-            database = FirebaseDatabase.getInstance();
-            myRef = database.getReference();
-            initBlog();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+        getPatientLocation();
+        initBlog();
 
         if (currentUser != null) {
             startActivity(new Intent(this, HomeActivity.class));
             finish();
         }
     }
-    LatLng sydney = new LatLng(-31, 150);
-    LatLng TamWorth = new LatLng(-31.083332, 150.916672);
-    LatLng NewCastle = new LatLng(-31.916668, 150.750000);
-    LatLng Brisbane = new LatLng(-31.470125, 151.021072);
-    // creating array list for adding all our locations.
-    private ArrayList<LatLng> locationArrayList;
+
+    // creating array list forfusedLocationProviderClient adding all our locations.
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
+        locationArrayList = new ArrayList<>();
 
         initListener();
         initRecyclerView();
@@ -96,15 +113,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapM);
         mapFragment.getMapAsync(this);
 
-        locationArrayList = new ArrayList<>();
 
-        // on below line we are adding our
-        // locations in our array list.
-        locationArrayList.add(sydney);
-        locationArrayList.add(TamWorth);
-        locationArrayList.add(NewCastle);
-        locationArrayList.add(Brisbane);
     }
+
     private class MyTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
@@ -112,58 +123,58 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             getCoronaLive();
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
 
         }
     }
+
     private void getCoronaLive() {
 
         Document doc = null, docBD;
         try {
             doc = Jsoup.connect("https://www.worldometers.info/coronavirus/").get();
             docBD = Jsoup.connect("https://www.worldometers.info/coronavirus/country/bangladesh/").get();
-            Log.d("getCoronaLive" ,"getCoronaLive: "+doc);
+            Log.d("getCoronaLive", "getCoronaLive: " + doc);
             int checkingValue = 1;
             int checkingValueBD = 1;
 
-            for (Element e: doc.select("div.maincounter-number")) {
+            for (Element e : doc.select("div.maincounter-number")) {
                 //     System.out.println(e.attr("abs:href"));
-                Log.d("getCoronaLive" ,"getCoronaLive: "+e.text());
-                switch (checkingValue)
-                {
-                    case 1 :
+                Log.d("getCoronaLive", "getCoronaLive: " + e.text());
+                switch (checkingValue) {
+                    case 1:
                         binding.effectedWw.setText(e.text());
                         break;
-                    case 2 :
+                    case 2:
                         binding.deathsWw.setText(e.text());
                         break;
-                        case 3 :
-                            binding.recoveredWw.setText(e.text());
+                    case 3:
+                        binding.recoveredWw.setText(e.text());
                         break;
                 }
-              checkingValue ++;
+                checkingValue++;
 
 
             }
 
 
-            for (Element e: docBD.select("div.maincounter-number")) {
+            for (Element e : docBD.select("div.maincounter-number")) {
                 //     System.out.println(e.attr("abs:href"));
-                Log.d("getCoronaLive" ,"getCoronaLive: "+e.text());
-                switch (checkingValueBD)
-                {
-                    case 1 :
+                Log.d("getCoronaLive", "getCoronaLive: " + e.text());
+                switch (checkingValueBD) {
+                    case 1:
                         binding.effectedBd.setText(e.text());
                         break;
-                    case 2 :
+                    case 2:
                         binding.deathsBd.setText(e.text());
                         break;
-                    case 3 :
+                    case 3:
                         binding.recoveredBd.setText(e.text());
                         break;
                 }
-                checkingValueBD ++;
+                checkingValueBD++;
 
 
             }
@@ -173,32 +184,34 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
     private void initBlog() {
         Config.getBlog(new Config.AdapterCallBackListener() {
             @Override
             public void Generale(List<Blog> blogs) {
-                Log.d("recyclerValue", "generalAdapter main: "+blogs.size());
+                Log.d("recyclerValue", "generalAdapter main: " + blogs.size());
 
-                generalAdapter = new BlogAdapter(MainActivity.this,blogs);
+                generalAdapter = new BlogAdapter(MainActivity.this, blogs);
                 binding.generalRv.setAdapter(generalAdapter);
             }
 
             @Override
             public void news(List<Blog> blogs) {
-                Log.d("recyclerValue", "newsAdapter main: "+blogs.size());
+                Log.d("recyclerValue", "newsAdapter main: " + blogs.size());
                 newsAdapter = new BlogAdapter(MainActivity.this, blogs);
                 binding.newsRv.setAdapter(newsAdapter);
             }
 
             @Override
             public void doctor(List<Blog> blogs) {
-                Log.d("recyclerValue", "doctor main: "+blogs.size());
+                Log.d("recyclerValue", "doctor main: " + blogs.size());
 
                 blogAdapter = new BlogAdapter(MainActivity.this, blogs);
                 binding.doctorRv.setAdapter(blogAdapter);
             }
         });
     }
+
     private void initRecyclerView() {
 
         binding.doctorRv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -207,6 +220,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
     private void initComponent() {
         // phoneRecycler = findViewById(R.id.my_recycler);
         //phoneRecycler();
@@ -222,6 +236,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             flipperImages(image);
         }
     }
+
     public void flipperImages(int image) {
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundResource(image);
@@ -233,6 +248,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         viewFlipper.setInAnimation(this, android.R.anim.slide_in_left);
         viewFlipper.setInAnimation(this, android.R.anim.slide_out_right);
     }
+
     private void initListener() {
         binding.callId.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,6 +271,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
     private void callMethod() {
         // Toast.makeText(this, "Call", Toast.LENGTH_SHORT).show();
 
@@ -267,11 +284,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
         startActivity(callIntent);
     }
+
     public void onMapReady(GoogleMap googleMap) {
-
+        this.googleMap = googleMap;
         // LatLng Dhaka = new LatLng(23.834570, 90.415481);
-
-        for (int i = 0; i < locationArrayList.size(); i++) {
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+   /*     for (int i = 0; i < locationArrayList.size(); i++) {
             googleMap.addMarker(new MarkerOptions().position(locationArrayList.get(i)).title(""));
             // googleMap.moveCamera(CameraUpdateFactory.newLatLng(Dhaka));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(17.0f));
@@ -279,8 +297,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(sydney,7),5000,null);
            // googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Brisbane,10),2000,null);
            // int zoom = mMap.getCa
-        }
+        }*/
     }
+
     // Permission the storage in the project
     /* Start the Permission */
     private void requestPermission() {
@@ -318,6 +337,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 .onSameThread()
                 .check();
     }
+
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Need Permissions");
@@ -337,11 +357,81 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         });
         builder.show();
     }
+
     // navigating user to app settings
     private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivityForResult(intent, 101);
+    }
+
+    private void getPatientLocation() {
+        // Read from the database
+        patientHistories = new ArrayList<>();
+        myRef.child("Location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    patientHistory = postSnapshot.getValue(PatientHistory.class);
+
+                    patientHistories.add(patientHistory);
+
+                    googleMap.addMarker(new MarkerOptions().icon(BitmapFromVector(getApplicationContext(), R.drawable.person_map)).position(new LatLng(patientHistory.getLatitute(), patientHistory.getLongatitute())).title(patientHistory.getId()));
+                    // googleMap.moveCamera(CameraUpdateFactory.newLatLng(Dhaka));
+
+
+                    //String value = dataSnapshot.getValue(String.class);
+                    Log.d("patientLocation", "Value is: " + patientHistory.getId());
+                    Log.d("patientLocation", "Value is: " + patientHistory.getLatitute());
+                    Log.d("patientLocation", "Value is: " + patientHistory.getLongatitute());
+
+                }
+
+
+
+                //googleMap
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(patientHistory.getLatitute(), patientHistory.getLongatitute())));
+              //  googleMap.setMapType(googleMap.MAP_TYPE_SATELLITE);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(patientHistory.getLatitute(), patientHistory.getLongatitute()), 15), 2000, null);
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+    private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
+        // below line is use to generate a drawable.
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+
+        // below line is use to set bounds to our vector drawable.
+
+        vectorDrawable.setBounds(0, 0, 100, 100);
+
+        // below line is use to create a bitmap for our
+        // drawable which we have added.
+        Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+        // Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+
+        // below line is use to add bitmap in our canvas.
+        Canvas canvas = new Canvas(bitmap);
+
+        // below line is use to draw our
+        // vector drawable in canvas.
+        vectorDrawable.draw(canvas);
+
+        // after generating our bitmap we are returning our bitmap.
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 }

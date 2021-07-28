@@ -39,14 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
-        initFunction();
+       // initFunction();
         initListener();
     }
 
-    private void initFunction() {
+ /*   private void initFunction() {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-    }
+    }*/
 
     private void initListener() {
 
@@ -171,10 +171,10 @@ public class SignUpActivity extends AppCompatActivity {
                             }
 
                             if (binding.rbCategoryPatient.isSelected()) {
-                                category = "patient";
+                                category = "Patient";
 
                             } else {
-                                category = "normal";
+                                category = "Normal";
                             }
 
 
@@ -250,7 +250,7 @@ public class SignUpActivity extends AppCompatActivity {
             binding.userConfirmPasswordET.requestFocus();
             return false;
         }
-        else if(condition)
+        else if(!condition)
         {
             Toast.makeText(this, "Please Confirm Term Condition", Toast.LENGTH_SHORT).show();
             return false;

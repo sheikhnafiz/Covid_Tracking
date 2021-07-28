@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.covidtracking.Config;
 import com.example.covidtracking.R;
 import com.example.covidtracking.model.Model;
 import com.example.covidtracking.model.Prescription;
@@ -42,7 +44,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
         holder.date.setText(models.get(position).getDate());
        // Picasso.get().load(models.get(position).getImage()).error(R.drawable.prescription).placeholder(R.drawable.prescription).into(holder.imageView);
-       // holder.imageView.setImageResource(models.get(position).getImage());
+       holder.imageView.setImageBitmap(Config.StringToBitMap(models.get(position).getImage()));
         holder.title.setText(models.get(position).getDoctorName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener()
@@ -73,9 +75,9 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
     @Override
     public int getItemCount() {
 
-        if(models.size() <= 0)
+        if(models == null)
         {
-            return 5;
+            return 0;
         }
         return models.size();
     }

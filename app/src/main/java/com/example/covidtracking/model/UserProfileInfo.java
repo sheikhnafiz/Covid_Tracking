@@ -1,5 +1,7 @@
 package com.example.covidtracking.model;
 
+import java.util.List;
+
 public class UserProfileInfo {
 
     private String id;
@@ -8,11 +10,13 @@ public class UserProfileInfo {
     private String number;
     private String gender;
     private String category;
+    private List<Prescription> prescription;
 
     public UserProfileInfo()
     {
 
     }
+
 
     public UserProfileInfo(String id, String name, String image, String number, String gender, String category) {
         this.id = id;
@@ -23,6 +27,23 @@ public class UserProfileInfo {
         this.category = category;
     }
 
+    public UserProfileInfo(String id, String name, String image, String number, String gender, String category, List<Prescription> prescription) {
+        this.id = id;
+        this.name = name;
+        this.image = image;
+        this.number = number;
+        this.gender = gender;
+        this.category = category;
+        this.prescription = prescription;
+    }
+
+    public List<Prescription> getPrescription() {
+        return prescription;
+    }
+
+    public void setPrescription(List<Prescription> prescription) {
+        this.prescription = prescription;
+    }
 
     public String getId() {
         return id;

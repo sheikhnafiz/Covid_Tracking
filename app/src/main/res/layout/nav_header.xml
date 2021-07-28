@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:background="@drawable/grad"
@@ -51,7 +51,7 @@
             android:layout_height="match_parent">
 
 
-          <LinearLayout
+            <LinearLayout
               android:id="@+id/nav_menu_profile"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
@@ -99,6 +99,34 @@
                     android:text="Prescription"
                     />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nav_menu_patient_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginLeft="10dp"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_patient"
+
+                    />
+                <TextView
+                    android:id="@+id/patientCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="20dp"
+                    android:layout_marginTop="-3dp"
+                    android:textStyle="bold"
+                    android:text=""
+                    />
+
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/nav_menu_logout"
                 android:layout_width="wrap_content"
@@ -122,6 +150,7 @@
                     android:text="Log Out"
                     />
             </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

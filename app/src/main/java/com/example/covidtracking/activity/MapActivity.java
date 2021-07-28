@@ -11,10 +11,12 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,15 +49,14 @@ import static com.example.covidtracking.Config.userID;
 import static com.example.covidtracking.Config.userProfileInfo;
 
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
-{
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private Button button;
     private TextView textView;
-    private FusedLocationProviderClient fusedLocationProviderClient ;
+    private FusedLocationProviderClient fusedLocationProviderClient;
     PatientHistory patientHistory;
     List<PatientHistory> patientHistories;
-
+    GoogleMap googleMap;
     LatLng sydney = new LatLng(23, 90);
     LatLng TamWorth = new LatLng(23.083332, 90.916672);
     LatLng NewCastle = new LatLng(23.916668, 90.750000);
@@ -65,8 +66,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<LatLng> locationArrayList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -88,23 +88,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if (getApplicationContext().checkSelfPermission(permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+                if (getApplicationContext().checkSelfPermission(permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
-                            if (location !=null ){
+                            if (location != null) {
                                 Double lat = location.getLatitude();
                                 Double longt = location.getLongitude();
 
-                                textView.setText(lat+" , " +longt);
-                                Toast.makeText(MapActivity.this,"Success",Toast.LENGTH_LONG);
+                                textView.setText(lat + " , " + longt);
+                                Toast.makeText(MapActivity.this, "Success", Toast.LENGTH_LONG);
 
                             }
                         }
                     });
 
-                }else {
-                    requestPermissions(new String[]{permission.ACCESS_FINE_LOCATION},1);
+                } else {
+                    requestPermissions(new String[]{permission.ACCESS_FINE_LOCATION}, 1);
                 }
 
             }
@@ -113,15 +113,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        for (int i = 0; i < locationArrayList.size(); i++) {
-            googleMap.addMarker(new MarkerOptions().icon(BitmapFromVector(getApplicationContext(), R.drawable.person_map)).position(locationArrayList.get(i)).title("Nikunja2"));
-            // googleMap.moveCamera(CameraUpdateFactory.newLatLng(Dhaka));
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
-            //googleMap
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(locationArrayList.get(i)));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(Brisbane,7),2000,null);
-        }
+    public void onMapReady(GoogleMap googleMap)
+    {
+        this.googleMap = googleMap;
+        myLocationTrack();
+        //googleMap
     }
 
 
@@ -136,7 +132,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // below line is use to create a bitmap for our
         // drawable which we have added.
         Bitmap bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-       // Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        // Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
 
         // below line is use to add bitmap in our canvas.
         Canvas canvas = new Canvas(bitmap);
@@ -148,46 +144,134 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // after generating our bitmap we are returning our bitmap.
         return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         getPatientLocation();
 
     }
-
-    private void getPatientLocation()
-    {
-            // Read from the database
+    Double userLat,userLong;
+    private void getPatientLocation() {
+        // Read from the database
         patientHistories = new ArrayList<>();
-            myRef.child("Location").addValueEventListener(new ValueEventListener() {
+
+
+        myRef.child("Location").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    // TODO: handle the post
+
+                    patientHistory = postSnapshot.getValue(PatientHistory.class);
+
+                    patientHistories.add(patientHistory);
+
+
+                    if(patientHistory.getId().equals(userID))
+                    {
+                        userLat = patientHistory.getLatitute();
+                        userLong =   patientHistory.getLongatitute();
+               /*
+                        googleMap.addMarker(new MarkerOptions().icon(BitmapFromVector(getApplicationContext(), R.drawable.my_location)).position(new LatLng(patientHistory.getLatitute(), patientHistory.getLongatitute())).title( patientHistory.getId()));
+               */     }
+                    else {
+                        googleMap.addMarker(new MarkerOptions().icon(BitmapFromVector(getApplicationContext(), R.drawable.person_map)).position(new LatLng(patientHistory.getLatitute(), patientHistory.getLongatitute())).title( patientHistory.getId()));
+                    }
+                    // googleMap.moveCamera(CameraUpdateFactory.newLatLng(Dhaka));
+
+
+
+                    //String value = dataSnapshot.getValue(String.class);
+                    Log.d("patientLocation", "Value is: " + patientHistory.getId());
+                    Log.d("patientLocation", "Value is: " + patientHistory.getLatitute());
+                    Log.d("patientLocation", "Value is: " + patientHistory.getLongatitute());
+
+
+                }
+
+
+                googleMap.animateCamera(CameraUpdateFactory.zoomTo(20));
+                //googleMap
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(userLat,userLong)));
+               // googleMap.setMapType(googleMap.MAP_TYPE_SATELLITE);
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(userLat,userLong), 16), 2000, null);
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                // Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+
+
+    Handler handler;
+    void myLocationTrack(){
+        handler = new Handler();
+
+        final Runnable r = new Runnable() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            public void run() {
+                //tv.append("Hello World");
+                try {
+                    getLocation();
+                }catch (Exception e){}
+                handler.postDelayed(this, 5000);
+            }
+        };
+
+        handler.postDelayed(r, 1000);
+    }
+
+    LatLng myLatLng;
+    private double longitude;
+    private double latitude;
+    //Function to move the map
+    private void moveMap() {
+        myLatLng = new LatLng(latitude, longitude);
+        int height = 80;
+        int width = 40;
+        BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.my_location);
+        Bitmap b = bitmapdraw.getBitmap();
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        //Adding marker to map
+        //     googleMap.remove();
+
+        googleMap.addMarker(new MarkerOptions()
+                .position(myLatLng)//setting position
+                .icon(BitmapDescriptorFactory.fromBitmap(smallMarker)) );//Making the marker draggable
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void getLocation() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot)
-                {
+                public void onSuccess(Location location) {
+                    if (location != null) {
 
-                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                        // TODO: handle the post
-
-                        patientHistory = postSnapshot.getValue(PatientHistory.class);
-
-                        patientHistories.add(patientHistory);
-
-                        //String value = dataSnapshot.getValue(String.class);
-                        Log.d("patientLocation", "Value is: " + patientHistory.getId());
-                        Log.d("patientLocation", "Value is: " + patientHistory.getLatitute());
-                        Log.d("patientLocation", "Value is: " + patientHistory.getLongatitute());
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                        Log.d("latLongitute", latitude+" onSuccess: "+longitude);
+                        moveMap();
 
                     }
-                    // This method is called once with the initial value and again
-                    // whenever data at this location is updated.
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    // Log.w(TAG, "Failed to read value.", error.toException());
                 }
             });
+
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
+    }
+
+
 
 }
